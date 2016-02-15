@@ -4,6 +4,10 @@
 # "Serialize" parameters
 #
 
+echo "#"
+echo "# Variables"
+echo "#"
+
 for k in "${(k)parameters[@]}"; do
     t="${parameters[$k]}"
 
@@ -111,6 +115,10 @@ done
 # "Serialize" functions
 #
 
+echo
+echo "#"
+echo "# Functions"
+echo "#"
 echo "unfunction -m \*"
 declare -f
 
