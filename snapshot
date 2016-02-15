@@ -122,4 +122,15 @@ echo "#"
 echo "unfunction -m \*"
 declare -f
 
+#
+# Serialize zstyles
+#
+
+echo
+echo "#"
+echo "# Zstyles"
+echo "#"
+echo "zstyle -d"
+zstyle -L
+
 # vim:ft=zsh
