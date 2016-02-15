@@ -1,0 +1,114 @@
+# Used variables: k t opts tmp
+
+#
+# "Serialize" parameters
+#
+
+for k in "${(k)parameters[@]}"; do
+    t="${parameters[$k]}"
+
+    [[ "$k" = "k" || "$k" = "t" || "$k" = "opts" || "$k" = "tmp" ]] && continue
+    [[ "$k" = "0" ]] && continue
+
+#    [[ "$k" = "?" || "$k" = "*" || "$k" = "!" || "$k" = "#" || "$k" = "$" ]] && continue
+#    [[ "$k" = "functions" || "$k" = "options" || "$k" = "history" || "$k" = "terminfo" ]] && continue
+#    [[ "$k" = "historywords" || "$k" = "signals" || "$k" = "patchars" || "$k" = "_comps" ]] && continue
+#    [[ "$k" = "_comp_setup" || "$k" = "builtins" ]] && continue
+
+    opts="-"
+    if [[ "$t" = *-export* ]]; then
+        opts+="x"
+    fi
+    if [[ "$t" = *-hideval* ]]; then
+        opts+="H"
+    fi
+    if [[ "$t" = *-hide-* || "$t" = *-hide ]]; then
+        opts+="h"
+    fi
+    if [[ "$t" = *-readonly* ]]; then
+        opts+="r"
+    fi
+    if [[ "$t" = *-tag* ]]; then
+        opts+="t"
+    fi
+    if [[ "$t" = *-unique* ]]; then
+        opts+="U"
+    fi
+    if [[ "$t" = *-lower* ]]; then
+        opts+="l"
+    fi
+    if [[ "$t" = *-upper* ]]; then
+        opts+="u"
+    fi
+    if [[ "$t" = *-left* ]]; then
+        # Check for field width
+        tmp=`declare -p ${(q)k}`
+        tmp="${tmp##*-L}"
+        tmp="${tmp%% *}"
+        opts="-L$tmp $opts"
+    fi
+    if [[ "$t" = *-right_blanks* ]]; then
+        # Check for field width
+        tmp=`declare -p ${(q)k}`
+        tmp="${tmp##*-R}"
+        tmp="${tmp%% *}"
+        opts="-R$tmp $opts"
+    fi
+    if [[ "$t" = *-right_zeros* ]]; then
+        # Check for field width
+        tmp=`declare -p ${(q)k}`
+        tmp="${tmp##*-Z}"
+        tmp="${tmp%% *}"
+        opts="-Z$tmp $opts"
+    fi
+    if [[ "$t" = *-special* ]]; then
+        if [[ "$t" = *-hide-* || "$t" = *-hide || "$t" = *-readonly* ]]; then
+            # Skip variables that are hidden or readonly, and special
+            continue
+        fi
+    fi
+
+    opts="${opts%-}"
+
+    echo "unset ${(qq)k}"
+    if [[ "$t" = "array" || "$t" = array-* ]]; then
+        opts="-a $opts"
+        echo "declare $opts $k"
+        eval "echo \"$k=( \${(qq)${k}[@]} )\""
+    elif [[ "$t" = "association" || "$t" = association-* ]]; then
+        opts="-A $opts"
+        echo "declare $opts $k"
+        eval "echo \"$k=( \${(qqkv)${k}[@]} )\""
+    elif [[ "$t" = "scalar" || "$t" = scalar-* ]]; then
+        echo "declare $opts $k"
+        eval "echo \"$k=\${(qq)$k}\""
+    elif [[ "$t" = "integer" || "$t" = integer-* ]]; then
+        # Check for base
+        tmp=`declare -p ${(q)k}`
+        tmp="${tmp##*-i}"
+        tmp="${tmp%% *}"
+        opts="-i$tmp $opts"
+        echo "declare $opts $k"
+        eval "echo \"$k=\${$k}\""
+    elif [[ "$t" = "float" || "$t" = float-* ]]; then
+        tmp=`declare -p ${(q)k}`
+        # -E or -F, get the base
+        if [ "$tmp" = "${tmp##*-F}" ]; then
+            tmp="${tmp##*-E}"
+            tmp="${tmp%% *}"
+            opts="-E$tmp $opts"
+        else
+            tmp="${tmp##*-F}"
+            tmp="${tmp%% *}"
+            opts="-F$tmp $opts"
+        fi
+        eval "echo \"$k=\${$k}\""
+    fi
+
+done
+
+#
+# "Serialize" functions
+#
+
+# vim:ft=zsh
