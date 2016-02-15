@@ -111,4 +111,6 @@ done
 # "Serialize" functions
 #
 
+declare -f
+
 # vim:ft=zsh
