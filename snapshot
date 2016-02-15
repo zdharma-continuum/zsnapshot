@@ -111,6 +111,7 @@ done
 # "Serialize" functions
 #
 
+echo "unfunction -m \*"
 declare -f
 
 # vim:ft=zsh
