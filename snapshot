@@ -8,6 +8,17 @@ echo "#"
 echo "# Variables"
 echo "#"
 
+cat <<EOF
+for k in "\${(k)parameters[@]}"; do
+    t="\${parameters[\$k]}"
+    if [[ "\$t" != *-readonly* ]]; then
+        unset "\$k"
+    fi
+done
+EOF
+
+echo
+
 for k in "${(k)parameters[@]}"; do
     t="${parameters[$k]}"
 
@@ -69,7 +80,6 @@ for k in "${(k)parameters[@]}"; do
 
     opts="${opts%-}"
 
-    echo "unset ${(qq)k}"
     if [[ "$t" = "array" || "$t" = array-* ]]; then
         opts="-a $opts"
         echo "declare $opts $k"
