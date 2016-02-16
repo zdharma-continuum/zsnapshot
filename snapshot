@@ -14,11 +14,6 @@ for k in "${(k)parameters[@]}"; do
     [[ "$k" = "k" || "$k" = "t" || "$k" = "opts" || "$k" = "tmp" ]] && continue
     [[ "$k" = "0" ]] && continue
 
-#    [[ "$k" = "?" || "$k" = "*" || "$k" = "!" || "$k" = "#" || "$k" = "$" ]] && continue
-#    [[ "$k" = "functions" || "$k" = "options" || "$k" = "history" || "$k" = "terminfo" ]] && continue
-#    [[ "$k" = "historywords" || "$k" = "signals" || "$k" = "patchars" || "$k" = "_comps" ]] && continue
-#    [[ "$k" = "_comp_setup" || "$k" = "builtins" ]] && continue
-
     opts="-"
     if [[ "$t" = *-export* ]]; then
         opts+="x"
