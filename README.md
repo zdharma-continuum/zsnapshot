@@ -4,6 +4,11 @@ Plugin that provides `zsnapshot` command which dumps current ZSH state into a fi
 
 ## Installation
 
+### [Zplugin](https://github.com/psprint/zplugin)
+
+Add `zplugin load psprint/zsnapshot` to your `.zshrc` file. Zplugin will handle
+cloning the plugin for you automatically the next time you start zsh.
+
 ### [Antigen](https://github.com/zsh-users/antigen)
 
 Adding `antigen bundle psprint/zsnapshot` to your .zshrc file. Antigen will handle cloning the plugin for you automatically the next time you start zsh. You can also add the plugin to a running zsh with `antigen bundle psprint/zsnapshot` for testing before adding it to your `.zshrc`.
