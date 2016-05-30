@@ -16,7 +16,7 @@ Adding `antigen bundle psprint/zsnapshot` to your .zshrc file. Antigen will hand
 ### [Oh-My-Zsh](http://ohmyz.sh/)
 
 1. `cd ~/.oh-my-zsh/custom/plugins`
-2. `git clone git@github.com:psprint/zsnapshot.git`
+2. `git clone https://github.com/psprint/zsnapshot.git`
 3. Add zsnapshot to your plugin list
 
 ### [Zgen](https://github.com/tarjoilija/zgen)
