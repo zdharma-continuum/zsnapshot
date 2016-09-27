@@ -87,28 +87,28 @@ for __zsnap_k in "${(k)parameters[@]}"; do
 
     if [[ "$__zsnap_t" = "array" || "$__zsnap_t" = array-* ]]; then
         __zsnap_opts="-a $__zsnap_opts"
-        echo "declare $__zsnap_opts $__zsnap_k"
-        echo "$__zsnap_k=("
+        print -r -- "declare $__zsnap_opts $__zsnap_k"
+        print -r -- "$__zsnap_k=("
         eval "__zsnap_tmp=\${#$__zsnap_k}"
         for (( __zsnap_tmp2=1; __zsnap_tmp2 <= __zsnap_tmp; __zsnap_tmp2 ++ )); do
-            eval "echo -E \"\${(qq)${__zsnap_k}[__zsnap_tmp2]}\""
+            eval "print -r -- \"\${(qq)${__zsnap_k}[__zsnap_tmp2]}\""
         done
-        echo ")"
+        print -r -- ")"
     elif [[ "$__zsnap_t" = "association" || "$__zsnap_t" = association-* ]]; then
         __zsnap_opts="-A $__zsnap_opts"
-        echo "declare $__zsnap_opts $__zsnap_k"
-        eval "echo \"$__zsnap_k=( \${(qqkv)${__zsnap_k}[@]} )\""
+        print -r -- "declare $__zsnap_opts $__zsnap_k"
+        eval "print -r -- \"$__zsnap_k=( \${(qqkv)${__zsnap_k}[@]} )\""
     elif [[ "$__zsnap_t" = "scalar" || "$__zsnap_t" = scalar-* ]]; then
-        echo "declare $__zsnap_opts $__zsnap_k"
-        eval "echo \"$__zsnap_k=\${(qq)$__zsnap_k}\""
+        print -r -- "declare $__zsnap_opts $__zsnap_k"
+        eval "print -r -- \"$__zsnap_k=\${(qq)$__zsnap_k}\""
     elif [[ "$__zsnap_t" = "integer" || "$__zsnap_t" = integer-* ]]; then
         # Check for base
         __zsnap_tmp=`declare -p ${(q)__zsnap_k}`
         __zsnap_tmp="${__zsnap_tmp##*-i}"
         __zsnap_tmp="${__zsnap_tmp%% *}"
         __zsnap_opts="-i$__zsnap_tmp $__zsnap_opts"
-        echo "declare $__zsnap_opts $__zsnap_k"
-        eval "echo \"$__zsnap_k=\${$__zsnap_k}\""
+        print -r -- "declare $__zsnap_opts $__zsnap_k"
+        eval "print -r -- \"$__zsnap_k=\${$__zsnap_k}\""
     elif [[ "$__zsnap_t" = "float" || "$__zsnap_t" = float-* ]]; then
         __zsnap_tmp=`declare -p ${(q)__zsnap_k}`
         # -E or -F, get the base
@@ -121,7 +121,7 @@ for __zsnap_k in "${(k)parameters[@]}"; do
             __zsnap_tmp="${__zsnap_tmp%% *}"
             __zsnap_opts="-F$__zsnap_tmp $__zsnap_opts"
         fi
-        eval "echo \"$__zsnap_k=\${$__zsnap_k}\""
+        eval "print -r -- \"$__zsnap_k=\${$__zsnap_k}\""
     fi
 
 done
