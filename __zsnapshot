@@ -1,4 +1,4 @@
-# Used variables: __zsnap_k __zsnap_t __zsnap_opts tmp
+# Used variables: __zsnap_k __zsnap_t __zsnap_opts __zsnap_tmp
 
 #
 # "Serialize" parameters
@@ -26,7 +26,7 @@ echo
 for __zsnap_k in "${(k)parameters[@]}"; do
     __zsnap_t="${parameters[$__zsnap_k]}"
 
-    [[ "$__zsnap_k" = "__zsnap_k" || "$__zsnap_k" = "__zsnap_t" || "$__zsnap_k" = "__zsnap_opts" || "$__zsnap_k" = "tmp" ]] && continue
+    [[ "$__zsnap_k" = "__zsnap_k" || "$__zsnap_k" = "__zsnap_t" || "$__zsnap_k" = "__zsnap_opts" || "$__zsnap_k" = "__zsnap_tmp" ]] && continue
     [[ "$__zsnap_k" = "0" ]] && continue
 
     __zsnap_opts="-"
@@ -56,24 +56,24 @@ for __zsnap_k in "${(k)parameters[@]}"; do
     fi
     if [[ "$__zsnap_t" = *-left* ]]; then
         # Check for field width
-        tmp=`declare -p ${(q)__zsnap_k}`
-        tmp="${tmp##*-L}"
-        tmp="${tmp%% *}"
-        __zsnap_opts="-L$tmp $__zsnap_opts"
+        __zsnap_tmp=`declare -p ${(q)__zsnap_k}`
+        __zsnap_tmp="${__zsnap_tmp##*-L}"
+        __zsnap_tmp="${__zsnap_tmp%% *}"
+        __zsnap_opts="-L$__zsnap_tmp $__zsnap_opts"
     fi
     if [[ "$__zsnap_t" = *-right_blanks* ]]; then
         # Check for field width
-        tmp=`declare -p ${(q)__zsnap_k}`
-        tmp="${tmp##*-R}"
-        tmp="${tmp%% *}"
-        __zsnap_opts="-R$tmp $__zsnap_opts"
+        __zsnap_tmp=`declare -p ${(q)__zsnap_k}`
+        __zsnap_tmp="${__zsnap_tmp##*-R}"
+        __zsnap_tmp="${__zsnap_tmp%% *}"
+        __zsnap_opts="-R$__zsnap_tmp $__zsnap_opts"
     fi
     if [[ "$__zsnap_t" = *-right_zeros* ]]; then
         # Check for field width
-        tmp=`declare -p ${(q)__zsnap_k}`
-        tmp="${tmp##*-Z}"
-        tmp="${tmp%% *}"
-        __zsnap_opts="-Z$tmp $__zsnap_opts"
+        __zsnap_tmp=`declare -p ${(q)__zsnap_k}`
+        __zsnap_tmp="${__zsnap_tmp##*-Z}"
+        __zsnap_tmp="${__zsnap_tmp%% *}"
+        __zsnap_opts="-Z$__zsnap_tmp $__zsnap_opts"
     fi
     if [[ "$__zsnap_t" = *-special* ]]; then
         if [[ "$__zsnap_t" = *-hide-* || "$__zsnap_t" = *-hide || "$__zsnap_t" = *-readonly* ]]; then
@@ -88,8 +88,8 @@ for __zsnap_k in "${(k)parameters[@]}"; do
         __zsnap_opts="-a $__zsnap_opts"
         echo "declare $__zsnap_opts $__zsnap_k"
         echo "$__zsnap_k=("
-        eval "tmp=\${#$__zsnap_k}"
-        for (( tmp2=1; tmp2 <= tmp; tmp2 ++ )); do
+        eval "__zsnap_tmp=\${#$__zsnap_k}"
+        for (( tmp2=1; tmp2 <= __zsnap_tmp; tmp2 ++ )); do
             eval "echo -E \"\${(qq)${__zsnap_k}[tmp2]}\""
         done
         echo ")"
@@ -102,23 +102,23 @@ for __zsnap_k in "${(k)parameters[@]}"; do
         eval "echo \"$__zsnap_k=\${(qq)$__zsnap_k}\""
     elif [[ "$__zsnap_t" = "integer" || "$__zsnap_t" = integer-* ]]; then
         # Check for base
-        tmp=`declare -p ${(q)__zsnap_k}`
-        tmp="${tmp##*-i}"
-        tmp="${tmp%% *}"
-        __zsnap_opts="-i$tmp $__zsnap_opts"
+        __zsnap_tmp=`declare -p ${(q)__zsnap_k}`
+        __zsnap_tmp="${__zsnap_tmp##*-i}"
+        __zsnap_tmp="${__zsnap_tmp%% *}"
+        __zsnap_opts="-i$__zsnap_tmp $__zsnap_opts"
         echo "declare $__zsnap_opts $__zsnap_k"
         eval "echo \"$__zsnap_k=\${$__zsnap_k}\""
     elif [[ "$__zsnap_t" = "float" || "$__zsnap_t" = float-* ]]; then
-        tmp=`declare -p ${(q)__zsnap_k}`
+        __zsnap_tmp=`declare -p ${(q)__zsnap_k}`
         # -E or -F, get the base
-        if [ "$tmp" = "${tmp##*-F}" ]; then
-            tmp="${tmp##*-E}"
-            tmp="${tmp%% *}"
-            __zsnap_opts="-E$tmp $__zsnap_opts"
+        if [ "$__zsnap_tmp" = "${__zsnap_tmp##*-F}" ]; then
+            __zsnap_tmp="${__zsnap_tmp##*-E}"
+            __zsnap_tmp="${__zsnap_tmp%% *}"
+            __zsnap_opts="-E$__zsnap_tmp $__zsnap_opts"
         else
-            tmp="${tmp##*-F}"
-            tmp="${tmp%% *}"
-            __zsnap_opts="-F$tmp $__zsnap_opts"
+            __zsnap_tmp="${__zsnap_tmp##*-F}"
+            __zsnap_tmp="${__zsnap_tmp%% *}"
+            __zsnap_opts="-F$__zsnap_tmp $__zsnap_opts"
         fi
         eval "echo \"$__zsnap_k=\${$__zsnap_k}\""
     fi
