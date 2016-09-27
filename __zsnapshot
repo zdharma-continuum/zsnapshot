@@ -30,7 +30,7 @@ for __zsnap_key in "${(k)parameters[@]}"; do
     __zsnap_type="${parameters[$__zsnap_key]}"
 
     [[ "$__zsnap_key" = "__zsnap_key" || "$__zsnap_key" = "__zsnap_type" || "$__zsnap_key" = "__zsnap_opts" ]] && continue
-    [[ "$__zsnap_key" = "__zsnap_tmp" || "$__zsnap_key" = "__zsnap_tmp2" ]] && continue
+    [[ "$__zsnap_key" = "__zsnap_tmp" || "$__zsnap_key" = "__zsnap_tmp2" || "$__zsnap_key" = "__zsnap_arr" ]] && continue
     [[ "$__zsnap_key" = "0" ]] && continue
 
     __zsnap_opts="-"
