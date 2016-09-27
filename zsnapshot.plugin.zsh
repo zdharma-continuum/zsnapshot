@@ -1,5 +1,5 @@
-0="${(%):-%N}" # this gives immunity to functionargzero being unset
-ZSS_DIR="${0:h}"
+ZERO="${(%):-%N}" # this gives immunity to functionargzero being unset
+ZSS_DIR="${ZERO:h}"
 
 PATH="$PATH:$ZSS_DIR"
 
