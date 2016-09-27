@@ -13,6 +13,7 @@ echo "# Variables"
 echo "#"
 
 cat <<EOF
+builtin setopt noaliases
 unset __zsnap_key __zsnap_type
 typeset -g __zsnap_key __zsnap_type
 for __zsnap_key in "\${(k)parameters[@]}"; do
@@ -169,5 +170,6 @@ EOF
 
 zle -lL
 
+echo "builtin setopt aliases"
 
 # vim:ft=zsh
