@@ -150,4 +150,24 @@ echo "#"
 echo "zstyle -d"
 zstyle -L
 
+#
+# Serialize zle widgets
+#
+echo
+echo "#"
+echo "# Zle widgets"
+echo "#"
+
+cat <<EOF
+unset __zsnap_arr
+typeset -ga __zsnap_arr
+__zsnap_arr=( "\${(@f)"\$( "zle" "-la" )"}" )
+for __zsnap_key in \${__zsnap_arr[@]}; do
+    [[ "\${__zsnap_key[1]}" != "." ]] && zle -D "\$__zsnap_key"
+done
+EOF
+
+zle -lL
+
+
 # vim:ft=zsh
