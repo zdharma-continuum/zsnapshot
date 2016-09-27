@@ -1,83 +1,83 @@
-# Used variables: __zsnap_k __zsnap_t __zsnap_opts __zsnap_tmp
+# Used variables: __zsnap_key __zsnap_type __zsnap_opts __zsnap_tmp
 
 #
 # "Serialize" parameters
 #
 
 # k, t, opts, tmp, tmp2
-unset      __zsnap_k __zsnap_t __zsnap_opts __zsnap_tmp __zsnap_tmp2
-typeset -g __zsnap_k __zsnap_t __zsnap_opts __zsnap_tmp __zsnap_tmp2
+unset      __zsnap_key __zsnap_type __zsnap_opts __zsnap_tmp __zsnap_tmp2
+typeset -g __zsnap_key __zsnap_type __zsnap_opts __zsnap_tmp __zsnap_tmp2
 
 echo "#"
 echo "# Variables"
 echo "#"
 
 cat <<EOF
-for __zsnap_k in "\${(k)parameters[@]}"; do
-    __zsnap_t="\${parameters[\$__zsnap_k]}"
-    if [[ "\$__zsnap_t" != *-readonly* ]]; then
-        unset "\$__zsnap_k"
+for __zsnap_key in "\${(k)parameters[@]}"; do
+    __zsnap_type="\${parameters[\$__zsnap_key]}"
+    if [[ "\$__zsnap_type" != *-readonly* ]]; then
+        unset "\$__zsnap_key"
     fi
 done
 EOF
 
 echo
 
-for __zsnap_k in "${(k)parameters[@]}"; do
-    __zsnap_t="${parameters[$__zsnap_k]}"
+for __zsnap_key in "${(k)parameters[@]}"; do
+    __zsnap_type="${parameters[$__zsnap_key]}"
 
-    [[ "$__zsnap_k" = "__zsnap_k" || "$__zsnap_k" = "__zsnap_t" || "$__zsnap_k" = "__zsnap_opts" ]] && continue
-    [[ "$__zsnap_k" = "__zsnap_tmp" || "$__zsnap_k" = "__zsnap_tmp2" ]] && continue
-    [[ "$__zsnap_k" = "0" ]] && continue
+    [[ "$__zsnap_key" = "__zsnap_key" || "$__zsnap_key" = "__zsnap_type" || "$__zsnap_key" = "__zsnap_opts" ]] && continue
+    [[ "$__zsnap_key" = "__zsnap_tmp" || "$__zsnap_key" = "__zsnap_tmp2" ]] && continue
+    [[ "$__zsnap_key" = "0" ]] && continue
 
     __zsnap_opts="-"
-    if [[ "$__zsnap_t" = *-export* ]]; then
+    if [[ "$__zsnap_type" = *-export* ]]; then
         __zsnap_opts+="x"
     fi
-    if [[ "$__zsnap_t" = *-hideval* ]]; then
+    if [[ "$__zsnap_type" = *-hideval* ]]; then
         __zsnap_opts+="H"
     fi
-    if [[ "$__zsnap_t" = *-hide-* || "$__zsnap_t" = *-hide ]]; then
+    if [[ "$__zsnap_type" = *-hide-* || "$__zsnap_type" = *-hide ]]; then
         __zsnap_opts+="h"
     fi
-    if [[ "$__zsnap_t" = *-readonly* ]]; then
+    if [[ "$__zsnap_type" = *-readonly* ]]; then
         __zsnap_opts+="r"
     fi
-    if [[ "$__zsnap_t" = *-tag* ]]; then
-        __zsnap_opts+="__zsnap_t"
+    if [[ "$__zsnap_type" = *-tag* ]]; then
+        __zsnap_opts+="__zsnap_type"
     fi
-    if [[ "$__zsnap_t" = *-unique* ]]; then
+    if [[ "$__zsnap_type" = *-unique* ]]; then
         __zsnap_opts+="U"
     fi
-    if [[ "$__zsnap_t" = *-lower* ]]; then
+    if [[ "$__zsnap_type" = *-lower* ]]; then
         __zsnap_opts+="l"
     fi
-    if [[ "$__zsnap_t" = *-upper* ]]; then
+    if [[ "$__zsnap_type" = *-upper* ]]; then
         __zsnap_opts+="u"
     fi
-    if [[ "$__zsnap_t" = *-left* ]]; then
+    if [[ "$__zsnap_type" = *-left* ]]; then
         # Check for field width
-        __zsnap_tmp=`declare -p ${(q)__zsnap_k}`
+        __zsnap_tmp=`declare -p ${(q)__zsnap_key}`
         __zsnap_tmp="${__zsnap_tmp##*-L}"
         __zsnap_tmp="${__zsnap_tmp%% *}"
         __zsnap_opts="-L$__zsnap_tmp $__zsnap_opts"
     fi
-    if [[ "$__zsnap_t" = *-right_blanks* ]]; then
+    if [[ "$__zsnap_type" = *-right_blanks* ]]; then
         # Check for field width
-        __zsnap_tmp=`declare -p ${(q)__zsnap_k}`
+        __zsnap_tmp=`declare -p ${(q)__zsnap_key}`
         __zsnap_tmp="${__zsnap_tmp##*-R}"
         __zsnap_tmp="${__zsnap_tmp%% *}"
         __zsnap_opts="-R$__zsnap_tmp $__zsnap_opts"
     fi
-    if [[ "$__zsnap_t" = *-right_zeros* ]]; then
+    if [[ "$__zsnap_type" = *-right_zeros* ]]; then
         # Check for field width
-        __zsnap_tmp=`declare -p ${(q)__zsnap_k}`
+        __zsnap_tmp=`declare -p ${(q)__zsnap_key}`
         __zsnap_tmp="${__zsnap_tmp##*-Z}"
         __zsnap_tmp="${__zsnap_tmp%% *}"
         __zsnap_opts="-Z$__zsnap_tmp $__zsnap_opts"
     fi
-    if [[ "$__zsnap_t" = *-special* ]]; then
-        if [[ "$__zsnap_t" = *-hide-* || "$__zsnap_t" = *-hide || "$__zsnap_t" = *-readonly* ]]; then
+    if [[ "$__zsnap_type" = *-special* ]]; then
+        if [[ "$__zsnap_type" = *-hide-* || "$__zsnap_type" = *-hide || "$__zsnap_type" = *-readonly* ]]; then
             # Skip variables that are hidden or readonly, and special
             continue
         fi
@@ -85,32 +85,32 @@ for __zsnap_k in "${(k)parameters[@]}"; do
 
     __zsnap_opts="${__zsnap_opts%-}"
 
-    if [[ "$__zsnap_t" = "array" || "$__zsnap_t" = array-* ]]; then
+    if [[ "$__zsnap_type" = "array" || "$__zsnap_type" = array-* ]]; then
         __zsnap_opts="-a $__zsnap_opts"
-        print -r -- "declare $__zsnap_opts $__zsnap_k"
-        print -r -- "$__zsnap_k=("
-        eval "__zsnap_tmp=\${#$__zsnap_k}"
+        print -r -- "declare $__zsnap_opts $__zsnap_key"
+        print -r -- "$__zsnap_key=("
+        eval "__zsnap_tmp=\${#$__zsnap_key}"
         for (( __zsnap_tmp2=1; __zsnap_tmp2 <= __zsnap_tmp; __zsnap_tmp2 ++ )); do
-            eval "print -r -- \"\${(qq)${__zsnap_k}[__zsnap_tmp2]}\""
+            eval "print -r -- \"\${(qq)${__zsnap_key}[__zsnap_tmp2]}\""
         done
         print -r -- ")"
-    elif [[ "$__zsnap_t" = "association" || "$__zsnap_t" = association-* ]]; then
+    elif [[ "$__zsnap_type" = "association" || "$__zsnap_type" = association-* ]]; then
         __zsnap_opts="-A $__zsnap_opts"
-        print -r -- "declare $__zsnap_opts $__zsnap_k"
-        eval "print -r -- \"$__zsnap_k=( \${(qqkv)${__zsnap_k}[@]} )\""
-    elif [[ "$__zsnap_t" = "scalar" || "$__zsnap_t" = scalar-* ]]; then
-        print -r -- "declare $__zsnap_opts $__zsnap_k"
-        eval "print -r -- \"$__zsnap_k=\${(qq)$__zsnap_k}\""
-    elif [[ "$__zsnap_t" = "integer" || "$__zsnap_t" = integer-* ]]; then
+        print -r -- "declare $__zsnap_opts $__zsnap_key"
+        eval "print -r -- \"$__zsnap_key=( \${(qqkv)${__zsnap_key}[@]} )\""
+    elif [[ "$__zsnap_type" = "scalar" || "$__zsnap_type" = scalar-* ]]; then
+        print -r -- "declare $__zsnap_opts $__zsnap_key"
+        eval "print -r -- \"$__zsnap_key=\${(qq)$__zsnap_key}\""
+    elif [[ "$__zsnap_type" = "integer" || "$__zsnap_type" = integer-* ]]; then
         # Check for base
-        __zsnap_tmp=`declare -p ${(q)__zsnap_k}`
+        __zsnap_tmp=`declare -p ${(q)__zsnap_key}`
         __zsnap_tmp="${__zsnap_tmp##*-i}"
         __zsnap_tmp="${__zsnap_tmp%% *}"
         __zsnap_opts="-i$__zsnap_tmp $__zsnap_opts"
-        print -r -- "declare $__zsnap_opts $__zsnap_k"
-        eval "print -r -- \"$__zsnap_k=\${$__zsnap_k}\""
-    elif [[ "$__zsnap_t" = "float" || "$__zsnap_t" = float-* ]]; then
-        __zsnap_tmp=`declare -p ${(q)__zsnap_k}`
+        print -r -- "declare $__zsnap_opts $__zsnap_key"
+        eval "print -r -- \"$__zsnap_key=\${$__zsnap_key}\""
+    elif [[ "$__zsnap_type" = "float" || "$__zsnap_type" = float-* ]]; then
+        __zsnap_tmp=`declare -p ${(q)__zsnap_key}`
         # -E or -F, get the base
         if [ "$__zsnap_tmp" = "${__zsnap_tmp##*-F}" ]; then
             __zsnap_tmp="${__zsnap_tmp##*-E}"
@@ -121,7 +121,7 @@ for __zsnap_k in "${(k)parameters[@]}"; do
             __zsnap_tmp="${__zsnap_tmp%% *}"
             __zsnap_opts="-F$__zsnap_tmp $__zsnap_opts"
         fi
-        eval "print -r -- \"$__zsnap_k=\${$__zsnap_k}\""
+        eval "print -r -- \"$__zsnap_key=\${$__zsnap_key}\""
     fi
 
 done
