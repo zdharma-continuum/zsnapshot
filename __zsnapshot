@@ -83,7 +83,12 @@ for k in "${(k)parameters[@]}"; do
     if [[ "$t" = "array" || "$t" = array-* ]]; then
         opts="-a $opts"
         echo "declare $opts $k"
-        eval "echo \"$k=( \${(qq)${k}[@]} )\""
+        echo "$k=("
+        eval "tmp=\${#$k}"
+        for (( tmp2=1; tmp2 <= tmp; tmp2 ++ )); do
+            eval "echo -E \"\${(qq)${k}[tmp2]}\""
+        done
+        echo ")"
     elif [[ "$t" = "association" || "$t" = association-* ]]; then
         opts="-A $opts"
         echo "declare $opts $k"
