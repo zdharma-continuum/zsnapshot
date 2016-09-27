@@ -26,7 +26,8 @@ echo
 for __zsnap_k in "${(k)parameters[@]}"; do
     __zsnap_t="${parameters[$__zsnap_k]}"
 
-    [[ "$__zsnap_k" = "__zsnap_k" || "$__zsnap_k" = "__zsnap_t" || "$__zsnap_k" = "__zsnap_opts" || "$__zsnap_k" = "__zsnap_tmp" ]] && continue
+    [[ "$__zsnap_k" = "__zsnap_k" || "$__zsnap_k" = "__zsnap_t" || "$__zsnap_k" = "__zsnap_opts" ]] && continue
+    [[ "$__zsnap_k" = "__zsnap_tmp" || "$__zsnap_k" = "__zsnap_tmp2" ]] && continue
     [[ "$__zsnap_k" = "0" ]] && continue
 
     __zsnap_opts="-"
