@@ -13,6 +13,8 @@ echo "# Variables"
 echo "#"
 
 cat <<EOF
+unset __zsnap_key __zsnap_type
+typeset -g __zsnap_key __zsnap_type
 for __zsnap_key in "\${(k)parameters[@]}"; do
     __zsnap_type="\${parameters[\$__zsnap_key]}"
     if [[ "\$__zsnap_type" != *-readonly* ]]; then
