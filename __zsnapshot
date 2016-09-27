@@ -4,7 +4,8 @@
 # "Serialize" parameters
 #
 
-unset __zsnap_k __zsnap_t __zsnap_opts __zsnap_tmp __zsnap_tmp2
+# k, t, opts, tmp, tmp2
+unset      __zsnap_k __zsnap_t __zsnap_opts __zsnap_tmp __zsnap_tmp2
 typeset -g __zsnap_k __zsnap_t __zsnap_opts __zsnap_tmp __zsnap_tmp2
 
 echo "#"
