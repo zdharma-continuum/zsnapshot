@@ -89,8 +89,8 @@ for __zsnap_k in "${(k)parameters[@]}"; do
         echo "declare $__zsnap_opts $__zsnap_k"
         echo "$__zsnap_k=("
         eval "__zsnap_tmp=\${#$__zsnap_k}"
-        for (( tmp2=1; tmp2 <= __zsnap_tmp; tmp2 ++ )); do
-            eval "echo -E \"\${(qq)${__zsnap_k}[tmp2]}\""
+        for (( __zsnap_tmp2=1; __zsnap_tmp2 <= __zsnap_tmp; __zsnap_tmp2 ++ )); do
+            eval "echo -E \"\${(qq)${__zsnap_k}[__zsnap_tmp2]}\""
         done
         echo ")"
     elif [[ "$__zsnap_t" = "association" || "$__zsnap_t" = association-* ]]; then
