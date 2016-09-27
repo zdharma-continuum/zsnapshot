@@ -1,4 +1,4 @@
-# Used variables: __zsnap_k t opts tmp
+# Used variables: __zsnap_k __zsnap_t opts tmp
 
 #
 # "Serialize" parameters
@@ -13,8 +13,8 @@ echo "#"
 
 cat <<EOF
 for __zsnap_k in "\${(k)parameters[@]}"; do
-    t="\${parameters[\$__zsnap_k]}"
-    if [[ "\$t" != *-readonly* ]]; then
+    __zsnap_t="\${parameters[\$__zsnap_k]}"
+    if [[ "\$__zsnap_t" != *-readonly* ]]; then
         unset "\$__zsnap_k"
     fi
 done
@@ -23,59 +23,59 @@ EOF
 echo
 
 for __zsnap_k in "${(k)parameters[@]}"; do
-    t="${parameters[$__zsnap_k]}"
+    __zsnap_t="${parameters[$__zsnap_k]}"
 
-    [[ "$__zsnap_k" = "__zsnap_k" || "$__zsnap_k" = "t" || "$__zsnap_k" = "opts" || "$__zsnap_k" = "tmp" ]] && continue
+    [[ "$__zsnap_k" = "__zsnap_k" || "$__zsnap_k" = "__zsnap_t" || "$__zsnap_k" = "opts" || "$__zsnap_k" = "tmp" ]] && continue
     [[ "$__zsnap_k" = "0" ]] && continue
 
     opts="-"
-    if [[ "$t" = *-export* ]]; then
+    if [[ "$__zsnap_t" = *-export* ]]; then
         opts+="x"
     fi
-    if [[ "$t" = *-hideval* ]]; then
+    if [[ "$__zsnap_t" = *-hideval* ]]; then
         opts+="H"
     fi
-    if [[ "$t" = *-hide-* || "$t" = *-hide ]]; then
+    if [[ "$__zsnap_t" = *-hide-* || "$__zsnap_t" = *-hide ]]; then
         opts+="h"
     fi
-    if [[ "$t" = *-readonly* ]]; then
+    if [[ "$__zsnap_t" = *-readonly* ]]; then
         opts+="r"
     fi
-    if [[ "$t" = *-tag* ]]; then
-        opts+="t"
+    if [[ "$__zsnap_t" = *-tag* ]]; then
+        opts+="__zsnap_t"
     fi
-    if [[ "$t" = *-unique* ]]; then
+    if [[ "$__zsnap_t" = *-unique* ]]; then
         opts+="U"
     fi
-    if [[ "$t" = *-lower* ]]; then
+    if [[ "$__zsnap_t" = *-lower* ]]; then
         opts+="l"
     fi
-    if [[ "$t" = *-upper* ]]; then
+    if [[ "$__zsnap_t" = *-upper* ]]; then
         opts+="u"
     fi
-    if [[ "$t" = *-left* ]]; then
+    if [[ "$__zsnap_t" = *-left* ]]; then
         # Check for field width
         tmp=`declare -p ${(q)__zsnap_k}`
         tmp="${tmp##*-L}"
         tmp="${tmp%% *}"
         opts="-L$tmp $opts"
     fi
-    if [[ "$t" = *-right_blanks* ]]; then
+    if [[ "$__zsnap_t" = *-right_blanks* ]]; then
         # Check for field width
         tmp=`declare -p ${(q)__zsnap_k}`
         tmp="${tmp##*-R}"
         tmp="${tmp%% *}"
         opts="-R$tmp $opts"
     fi
-    if [[ "$t" = *-right_zeros* ]]; then
+    if [[ "$__zsnap_t" = *-right_zeros* ]]; then
         # Check for field width
         tmp=`declare -p ${(q)__zsnap_k}`
         tmp="${tmp##*-Z}"
         tmp="${tmp%% *}"
         opts="-Z$tmp $opts"
     fi
-    if [[ "$t" = *-special* ]]; then
-        if [[ "$t" = *-hide-* || "$t" = *-hide || "$t" = *-readonly* ]]; then
+    if [[ "$__zsnap_t" = *-special* ]]; then
+        if [[ "$__zsnap_t" = *-hide-* || "$__zsnap_t" = *-hide || "$__zsnap_t" = *-readonly* ]]; then
             # Skip variables that are hidden or readonly, and special
             continue
         fi
@@ -83,7 +83,7 @@ for __zsnap_k in "${(k)parameters[@]}"; do
 
     opts="${opts%-}"
 
-    if [[ "$t" = "array" || "$t" = array-* ]]; then
+    if [[ "$__zsnap_t" = "array" || "$__zsnap_t" = array-* ]]; then
         opts="-a $opts"
         echo "declare $opts $__zsnap_k"
         echo "$__zsnap_k=("
@@ -92,14 +92,14 @@ for __zsnap_k in "${(k)parameters[@]}"; do
             eval "echo -E \"\${(qq)${__zsnap_k}[tmp2]}\""
         done
         echo ")"
-    elif [[ "$t" = "association" || "$t" = association-* ]]; then
+    elif [[ "$__zsnap_t" = "association" || "$__zsnap_t" = association-* ]]; then
         opts="-A $opts"
         echo "declare $opts $__zsnap_k"
         eval "echo \"$__zsnap_k=( \${(qqkv)${__zsnap_k}[@]} )\""
-    elif [[ "$t" = "scalar" || "$t" = scalar-* ]]; then
+    elif [[ "$__zsnap_t" = "scalar" || "$__zsnap_t" = scalar-* ]]; then
         echo "declare $opts $__zsnap_k"
         eval "echo \"$__zsnap_k=\${(qq)$__zsnap_k}\""
-    elif [[ "$t" = "integer" || "$t" = integer-* ]]; then
+    elif [[ "$__zsnap_t" = "integer" || "$__zsnap_t" = integer-* ]]; then
         # Check for base
         tmp=`declare -p ${(q)__zsnap_k}`
         tmp="${tmp##*-i}"
@@ -107,7 +107,7 @@ for __zsnap_k in "${(k)parameters[@]}"; do
         opts="-i$tmp $opts"
         echo "declare $opts $__zsnap_k"
         eval "echo \"$__zsnap_k=\${$__zsnap_k}\""
-    elif [[ "$t" = "float" || "$t" = float-* ]]; then
+    elif [[ "$__zsnap_t" = "float" || "$__zsnap_t" = float-* ]]; then
         tmp=`declare -p ${(q)__zsnap_k}`
         # -E or -F, get the base
         if [ "$tmp" = "${tmp##*-F}" ]; then
