@@ -147,7 +147,7 @@ for __zsnap_key in "${(k)parameters[@]}"; do
         __zsnap_opts="-a $__zsnap_opts"
         print -r -- "declare $__zsnap_opts $__zsnap_key"
         print -r -- "$__zsnap_key=("
-        eval "__zsnap_tmp=\${#$__zsnap_key}"
+        eval "__zsnap_tmp=\${#$__zsnap_key[@]}"
         for (( __zsnap_tmp2=1; __zsnap_tmp2 <= __zsnap_tmp; __zsnap_tmp2 ++ )); do
             eval "print -r -- \"\${(qq)${__zsnap_key}[__zsnap_tmp2]}\""
         done
